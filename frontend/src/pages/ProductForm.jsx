@@ -30,9 +30,9 @@ function ProductForm() {
       try {
         // Sử dụng Promise.all để gọi nhiều API cùng lúc cho hiệu quả
         const [catRes, brandRes] = await Promise.all([
-          axios.get('http://localhost:5000/api/categories'),
-          axios.get('http://localhost:5000/api/brands'),
-        ]);
+        axios.get('https://pc-store-project.onrender.com/api/categories'),
+        axios.get('https://pc-store-project.onrender.com/api/brands'),
+]);
         setCategories(catRes.data);
         setBrands(brandRes.data);
       } catch (error) {

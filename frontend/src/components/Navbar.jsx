@@ -1,4 +1,4 @@
-
+// src/components/Navbar.jsx
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
@@ -11,7 +11,8 @@ function Navbar() {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/categories');
+       const apiUrl = `${import.meta.env.VITE_API_BASE_URL}/api/categories`;
+const response = await axios.get(apiUrl);
         setCategories(response.data);
       } catch (error) {
         console.error("Lỗi khi tải danh mục:", error);

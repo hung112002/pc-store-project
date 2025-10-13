@@ -11,7 +11,8 @@ function HomePage() {
     const fetchFeaturedProducts = async () => {
       try {
         // Lấy tất cả sản phẩm và chỉ hiển thị 4 sản phẩm mới nhất làm sản phẩm nổi bật
-        const response = await axios.get('http://localhost:5000/api/products');
+        const apiUrl = `${import.meta.env.VITE_API_BASE_URL}/api/categories`;
+const response = await axios.get(apiUrl);
         setFeaturedProducts(response.data.slice(0, 4)); // Lấy 4 sản phẩm đầu tiên
       } catch (error) {
         console.error("Lỗi khi tải sản phẩm nổi bật:", error);

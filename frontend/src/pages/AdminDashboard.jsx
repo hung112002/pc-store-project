@@ -13,7 +13,8 @@ function AdminDashboard() {
     setIsLoading(true); // Bắt đầu tải dữ liệu
     const fetchProducts = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/products?q=${searchTerm}`);
+        const apiUrl = `${import.meta.env.VITE_API_BASE_URL}/api/categories`;
+const response = await axios.get(apiUrl);
         setProducts(response.data);
       } catch (error) {
         console.error("Lỗi khi lấy danh sách sản phẩm:", error);

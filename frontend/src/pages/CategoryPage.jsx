@@ -15,7 +15,8 @@ function CategoryPage() {
     const fetchProductsByCategory = async () => {
       try {
         // Gọi API đã được nâng cấp, thêm tham số ?category=...
-        const response = await axios.get(`http://localhost:5000/api/products?category=${categoryName}`);
+        const apiUrl = `${import.meta.env.VITE_API_BASE_URL}/api/categories`;
+const response = await axios.get(apiUrl);
         setProducts(response.data);
       } catch (error) {
         console.error(`Lỗi khi tải sản phẩm cho loại ${categoryName}:`, error);

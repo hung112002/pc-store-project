@@ -23,7 +23,8 @@ function ProductDetailPage() {
     const fetchProduct = async () => {
       if (id) {
         try {
-          const response = await axios.get(`http://localhost:5000/api/products/${id}`);
+        const apiUrl = `${import.meta.env.VITE_API_BASE_URL}/api/categories`;
+const response = await axios.get(apiUrl);
           setProduct(response.data);
         } catch (error) {
           console.error("Lỗi khi lấy chi tiết sản phẩm:", error);
