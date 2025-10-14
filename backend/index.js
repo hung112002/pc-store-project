@@ -6,19 +6,7 @@ const db = require('./db');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-
-const corsOptions = {
-  origin: [
-    'http://localhost:5173', // Cho phép frontend ở máy bạn
-    'https://dreamy-horse-4a27ae.netlify.app', // Cho phép frontend trên Netlify
-    'https://solre.netlify.app', 
-    'https://pc-store-project-delta.vercel.app' // 
-    
-  ],
-  optionsSuccessStatus: 200
-};
-
-app.use(cors(corsOptions));
+app.use(cors()); 
 app.use(express.json());
 
 // ----- API MỚI: LẤY DANH SÁCH LOẠI SẢN PHẨM -----
