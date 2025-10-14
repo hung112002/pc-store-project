@@ -751,3 +751,60 @@ body {
     padding: 1rem; /* Giảm padding trên điện thoại */
   }
 }
+@media screen and (max-width: 960px) {
+  .navbar-logo {
+    font-size: 1.8rem;
+  }
+  .nav-menu {
+    display: none; /* Ẩn menu chữ để có không gian */
+  }
+  .nav-links.admin-link {
+    display: flex; /* Nhưng vẫn hiện nút Quản Trị */
+  }
+  .hero-content h1 {
+    font-size: 3rem;
+  }
+  .hero-content p {
+    font-size: 1.2rem;
+  }
+}
+
+/* Áp dụng cho màn hình nhỏ (dưới 768px - điện thoại) */
+@media screen and (max-width: 768px) {
+  .product-detail-layout {
+    grid-template-columns: 1fr; /* Chuyển layout chi tiết sản phẩm thành 1 cột */
+  }
+  .form-row {
+    grid-template-columns: 1fr; /* Chuyển layout form thành 1 cột */
+  }
+  .admin-table {
+    /* Cho phép bảng admin cuộn ngang */
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  .admin-header {
+    flex-direction: column; /* Xếp chồng tiêu đề và nút bấm */
+    gap: 1rem;
+  }
+  .footer-content {
+    grid-template-columns: 1fr; /* Xếp chồng các cột của footer */
+    text-align: center;
+  }
+  .footer-logo-section .footer-logo {
+    justify-content: center;
+  }
+}
+
+/* Áp dụng cho màn hình rất nhỏ (dưới 480px) */
+@media screen and (max-width: 480px) {
+  .hero-content h1 {
+    font-size: 2.5rem;
+  }
+  .hero-content p {
+    font-size: 1rem;
+  }
+  .page-container, .admin-container {
+    padding: 1rem; /* Giảm padding trên điện thoại */
+  }
+}
