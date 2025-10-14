@@ -13,7 +13,7 @@ function Navbar() {
       try {
        const apiUrl = `${import.meta.env.VITE_API_BASE_URL}/api/categories`;
 const response = await axios.get(apiUrl);
-        setCategories(response.data);
+        setCategories(Array.isArray(response.data) ? response.data : []);
       } catch (error) {
         console.error("Lỗi khi tải danh mục:", error);
       }
