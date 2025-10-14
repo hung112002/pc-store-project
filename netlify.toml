@@ -1,0 +1,14 @@
+# Cài đặt cho quá trình build
+[build]
+  # Thư mục gốc của code frontend
+  base = "frontend"
+  # Thư mục chứa trang web sau khi build xong
+  publish = "frontend/dist"
+  # Lệnh để build trang web
+  command = "npm run build"
+
+# Chỉ thị chuyển hướng cho ứng dụng trang đơn (SPA)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
