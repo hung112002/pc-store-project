@@ -1,21 +1,33 @@
-
+// src/pages/HomePage.jsx
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import ProductCard from '../components/ProductCard'; // Tái sử dụng component ProductCard
+import ProductCard from '../components/ProductCard';
+import { toast } from 'react-toastify';
 
 function HomePage() {
   const [featuredProducts, setFeaturedProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true); // Thêm trạng thái tải
 
   useEffect(() => {
+    setIsLoading(true);
     const fetchFeaturedProducts = async () => {
       try {
-        // Lấy tất cả sản phẩm và chỉ hiển thị 4 sản phẩm mới nhất làm sản phẩm nổi bật
-        const apiUrl = `${import.meta.env.VITE_API_BASE_URL}/api/categories`;
-const response = await axios.get(apiUrl);
-        setFeaturedProducts(response.data.slice(0, 4)); // Lấy 4 sản phẩm đầu tiên
+        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/products`);
+
+        // --- ĐÂY LÀ LỚP BẢO HIỂM QUAN TRỌNG NHẤT ---
+        if (Array.isArray(response.data)) {
+          setFeaturedProducts(response.data.slice(0, 4)); // Lấy 4 sản phẩm đầu tiên
+        } else {
+          setFeaturedProducts([]); // Nếu không phải mảng, đặt thành mảng rỗng
+        }
+
       } catch (error) {
         console.error("Lỗi khi tải sản phẩm nổi bật:", error);
+        toast.error("Không thể tải các sản phẩm nổi bật.");
+        setFeaturedProducts([]); // Đặt thành mảng rỗng nếu có lỗi
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchFeaturedProducts();
@@ -35,11 +47,15 @@ const response = await axios.get(apiUrl);
       {/* --- Khu vực sản phẩm nổi bật --- */}
       <div className="page-container">
         <h2 className="section-title">Sản Phẩm Nổi Bật</h2>
-        <div className="product-list">
-          {featuredProducts.map(product => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
+        {isLoading ? (
+          <div className="loading-spinner-container"><div className="loading-spinner"></div></div>
+        ) : (
+          <div className="product-list">
+            {featuredProducts.map(product => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

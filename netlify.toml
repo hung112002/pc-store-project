@@ -2,7 +2,7 @@
 [build]
   # Thư mục gốc của code frontend
   base = "frontend"
-  # Thư mục chứa trang web sau khi build xong (ĐÃ SỬA)
+  # Thư mục chứa trang web sau khi build xong 
   publish = "dist"
   # Lệnh để build trang web
   command = "npm run build"
