@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 // Hàm để chuyển đổi link YouTube thường thành link nhúng
 const getYouTubeEmbedUrl = (url) => {
@@ -17,24 +18,34 @@ const getYouTubeEmbedUrl = (url) => {
 
 function ProductDetailPage() {
   const [product, setProduct] = useState(null);
+  const [isLoading, setIsLoading] = useState(true); // <-- Thêm state loading
   const { id } = useParams();
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
 
   useEffect(() => {
+    setIsLoading(true);
     const fetchProduct = async () => {
       if (id) {
         try {
-        const apiUrl = `${import.meta.env.VITE_API_BASE_URL}/api/categories`;
-const response = await axios.get(apiUrl);
+          const response = await axios.get(`${API_URL}/api/products/${id}`);
           setProduct(response.data);
         } catch (error) {
           console.error("Lỗi khi lấy chi tiết sản phẩm:", error);
+          toast.error("Không tìm thấy sản phẩm hoặc có lỗi xảy ra.");
+        } finally {
+          setIsLoading(false);
         }
       }
     };
-    fetchProduct();
-  }, [id]);
+    const timer = setTimeout(() => {
+      fetchProduct();
+    }, 500); // Đợi 0.5 giây
 
-  if (!product) {
+    return () => clearTimeout(timer); // Cleanup timer
+  }, [id, API_URL]);
+
+  // --- LOGIC MỚI: Xử lý trạng thái tải ---
+  if (isLoading) {
     return (
       <div className="page-container">
         <div className="loading-spinner-container">
@@ -44,6 +55,16 @@ const response = await axios.get(apiUrl);
     );
   }
 
+  // Nếu không tìm thấy sản phẩm sau khi tải xong
+  if (!product) {
+    return (
+      <div className="page-container">
+        <h1>Không tìm thấy sản phẩm</h1>
+        <Link to="/" className="back-link">← Quay lại trang chủ</Link>
+      </div>
+    );
+  }
+  
   const embedUrl = getYouTubeEmbedUrl(product.video_url);
 
   return (
@@ -63,7 +84,7 @@ const response = await axios.get(apiUrl);
           <div className="product-detail-info">
             <p className="brand">Thương hiệu: {product.brand_name}</p>
             <p className="category">Loại: {product.category_name}</p>
-            <p className="price">{product.price.toLocaleString('vi-VN')} VNĐ</p>
+            <p className="price">{(product.price || 0).toLocaleString('vi-VN')} VNĐ</p>
             <p>Số lượng trong kho: {product.stock_quantity}</p>
             <div className="description">
               <h3>Mô tả chi tiết:</h3>
@@ -71,8 +92,7 @@ const response = await axios.get(apiUrl);
             </div>
           </div>
         </div>
-
-        {/* --- HIỂN THỊ VIDEO TRAILER NẾU CÓ --- */}
+        
         {embedUrl && (
           <div className="video-container">
             <h3>Video Trailer</h3>
