@@ -15,9 +15,10 @@ function CategoryPage() {
     const fetchProductsByCategory = async () => {
       try {
         // Gọi API đã được nâng cấp, thêm tham số ?category=...
-        const apiUrl = `${import.meta.env.VITE_API_BASE_URL}/api/categories`;
+        const apiUrl = `${import.meta.env.VITE_API_BASE_URL}/api/products?category=${categoryName}`;
 const response = await axios.get(apiUrl);
-        setProducts(response.data);
+// Đảm bảo rằng response.data luôn là một mảng
+setProducts(Array.isArray(response.data) ? response.data : []);
       } catch (error) {
         console.error(`Lỗi khi tải sản phẩm cho loại ${categoryName}:`, error);
         toast.error("Không thể tải sản phẩm cho loại này.");

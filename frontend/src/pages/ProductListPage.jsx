@@ -14,9 +14,9 @@ function ProductListPage() {
     setIsLoading(true); // Bắt đầu tải
     const fetchProducts = async () => {
       try {
-      const apiUrl = `${import.meta.env.VITE_API_BASE_URL}/api/categories`;
+   const apiUrl = `${import.meta.env.VITE_API_BASE_URL}/api/products?q=${searchTerm}`;
 const response = await axios.get(apiUrl);
-        setProducts(response.data);
+         setProducts(Array.isArray(response.data) ? response.data : []);
       } catch (error) {
         console.error("Lỗi khi lấy danh sách sản phẩm:", error);
         toast.error("Không thể tải sản phẩm. Vui lòng thử lại sau!"); // <-- Thêm thông báo lỗi
