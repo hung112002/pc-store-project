@@ -8,6 +8,7 @@ function AdminDashboard() {
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
 
   useEffect(() => {
     setIsLoading(true);

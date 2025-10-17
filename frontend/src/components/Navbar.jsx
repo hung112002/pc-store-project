@@ -7,6 +7,7 @@ import { faMicrochip } from '@fortawesome/free-solid-svg-icons';
 
 function Navbar() {
   const [categories, setCategories] = useState([]);
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
 
   useEffect(() => {
     const fetchCategories = async () => {

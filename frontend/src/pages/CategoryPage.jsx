@@ -9,6 +9,7 @@ function CategoryPage() {
   const { categoryName } = useParams(); // Lấy tên category từ URL, ví dụ: "cpu"
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
 
   useEffect(() => {
     setIsLoading(true);

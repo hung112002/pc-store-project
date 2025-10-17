@@ -11,10 +11,12 @@ function ProductForm() {
     name: '', description: '', price: '', stock_quantity: '',
     category_id: '', brand_id: '', image_url: '', video_url: '',
   });
+  
 
   const navigate = useNavigate();
   const { id } = useParams();
   const isEditing = !!id;
+  
 
   // Lấy API base URL từ biến môi trường
   const API_URL = import.meta.env.VITE_API_BASE_URL;
