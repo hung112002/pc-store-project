@@ -1,5 +1,4 @@
 // backend/index.js
-
 const express = require('express');
 const cors = require('cors');
 const db = require('./db');
@@ -158,8 +157,11 @@ app.put('/api/products/:id', async (req, res) => {
 
         const { id } = req.params;
         const { name, description, price, stock_quantity, image_url, video_url, category_id, brand_id, specifications, images } = req.body;
-        
-        const updatedProductResult = await db.query(
+        const numericPrice = parseFloat(String(price).replace(/,/g, ''));
+        if (isNaN(numericPrice)) {
+            throw new Error("Định dạng giá tiền không hợp lệ.");
+        }
+        const updatedProductResult = await client.query(
             "UPDATE products SET name = $1, description = $2, price = $3, stock_quantity = $4, image_url = $5, video_url = $6, category_id = $7, brand_id = $8, specifications = $9 WHERE id = $10 RETURNING *",
             [name, description, price, stock_quantity, image_url, video_url, category_id, brand_id, specifications, id]
         );
@@ -167,7 +169,6 @@ app.put('/api/products/:id', async (req, res) => {
         if (updatedProductResult.rows.length === 0) {
             throw new Error("Không tìm thấy sản phẩm để cập nhật");
         }
-
         // Xóa các ảnh cũ và thêm lại các ảnh mới
         await client.query("DELETE FROM product_images WHERE product_id = $1", [id]);
         if (images && images.length > 0) {
@@ -214,10 +215,18 @@ app.delete('/api/products/:id', async (req, res) => {
 app.listen(PORT, () => {
     console.log(`Backend server đang chạy trên http://localhost:${PORT}`);
 });
-
 // Thêm biến pool để sử dụng trong transaction
 const { Pool } = require('pg');
+
+console.log("Đang kết nối database với Port:", process.env.DB_PORT); // Thêm dòng này để kiểm tra
+
 const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
+    user: process.env.DB_USER,
+    host: process.env.DB_HOST,
+    database: process.env.DB_DATABASE,
+    password: process.env.DB_PASSWORD,
+    port: process.env.DB_PORT,
+    // Cấu hình SSL, có thể bạn sẽ cần khi deploy
+    // ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
 });
+
