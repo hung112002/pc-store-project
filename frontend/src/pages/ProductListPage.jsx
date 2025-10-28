@@ -19,7 +19,7 @@ const response = await axios.get(apiUrl);
          setProducts(Array.isArray(response.data) ? response.data : []);
       } catch (error) {
         console.error("Lỗi khi lấy danh sách sản phẩm:", error);
-        toast.error("Không thể tải sản phẩm. Vui lòng thử lại sau!"); // <-- Thêm thông báo lỗi
+        toast.error("Không thể tải sản phẩm. Vui lòng thử lại sau!"); 
       } finally {
         setIsLoading(false); // Kết thúc tải
       }

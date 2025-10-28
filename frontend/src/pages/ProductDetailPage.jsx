@@ -4,13 +4,9 @@ import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-// ==================================================================
-// === COMPONENT "THÔNG MINH" ĐỂ HIỂN THỊ THÔNG SỐ KỸ THUẬT ===
-// ==================================================================
 const SpecTable = ({ specs, category }) => {
   if (!specs) return null;
 
-  // "Từ điển" thông số cho từng loại linh kiện
   const specMap = {
     CPU: {
       socket: "Socket",
@@ -31,6 +27,8 @@ const SpecTable = ({ specs, category }) => {
       display_outputs: "Cổng xuất hình",
       power_connectors: "Đầu cấp nguồn",
       recommended_psu: "Nguồn đề xuất",
+      第4世代: "第4世代",
+      Maximum_resolution: "最大解像度",
     },
     RAM: {
       type: "Loại RAM",
@@ -43,13 +41,35 @@ const SpecTable = ({ specs, category }) => {
       chipset: "Chipset",
       form_factor: "Kích thước",
       memory_slots: "Khe RAM",
+      pcie_slot: "PCIeスロット",
+      max_memory: "最大メモリ",
+      Graphics: "グラフィック",
+      Operating_system : "オペレーティング·システム",
+      Intel_generation_ssupport :"Intel_generation_ssupport",
+      wifi:"Wifi",
+
+    },
+    Monitor: {
+      screen_size: "Kích thước màn hình",
+      resolution: "Độ phân giải",
+      panel_type: "パネル種類",
+      refresh_rate: "リフレッシュレート",
+      response_time: "Thời gian phản hồi",
+      ports: "Cổng kết nối",
+    },
+    PSU: {
+      wattage: "Công suất",
+      efficiency_rating: "Chứng nhận hiệu suất",
+      form_factor: "Kích thước (Form Factor)",
+      modularity: "Module",
+      fan_size: "Kích thước quạt",
     },
   };
 
   const relevantSpecs = specMap[category] || {};
   const specKeys = Object.keys(relevantSpecs);
 
-  if (specKeys.length === 0) return null; // Không hiển thị nếu không có thông số
+  if (specKeys.length === 0) return null;
 
   return (
     <div className="spec-table">
@@ -57,7 +77,6 @@ const SpecTable = ({ specs, category }) => {
       <table>
         <tbody>
           {specKeys.map(key => (
-            // Chỉ hiển thị dòng nếu sản phẩm có thông số đó
             specs[key] && (
               <tr key={key}>
                 <td>{relevantSpecs[key]}</td>
@@ -71,7 +90,7 @@ const SpecTable = ({ specs, category }) => {
   );
 };
 
-// Hàm chuyển đổi link YouTube (giữ nguyên)
+
 const getYouTubeEmbedUrl = (url) => {
   if (!url) return null;
   try {

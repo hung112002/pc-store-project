@@ -3,9 +3,9 @@
 /* --- Cài đặt chung cho toàn trang --- */
 body {
  body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  background-color: var(--bg-dark); /* Lấy màu nền tối từ biến màu */
-  color: var(--surface-dark); /* Chữ trắng mặc định */
+  font-family: 'Poppins', sans-serif; /* <-- SỬA DÒNG NÀY */
+  background-color: #f4f4f9;
+  color: #333;
   margin: 0;
 }
 }
@@ -101,16 +101,51 @@ h1 {
 
 /* Biến màu để dễ dàng thay đổi theme sau này */
 :root {
-  --bg-dark: #111827; /* Nền tối chính */
-  --surface-dark: #1F2937; /* Nền tối cho các bề mặt như bảng, form */
-  --border-color: #374151; /* Màu viền */
-  --primary-accent: #38BDF8; /* Xanh Cyan */
-  --primary-accent-hover: #7DD3FC;
-  --danger-accent: #F43F5E; /* Đỏ/Hồng */
-  --danger-accent-hover: #FB7185;
-  --text-light: #F9FAFB; /* Chữ trắng */
-  --text-muted: #9CA3AF; /* Chữ xám */
+  --bg-dark: #0d1117; /* Nền đen sâu (như GitHub) */
+  --surface-dark: #161b22; /* Nền cho các bề mặt */
+  --border-color: #30363d; /* Màu viền */
+  --primary-accent: #58a6ff; /* Xanh dương sáng */
+  --primary-accent-hover: #80b6f8;
+  --danger-accent: #f85149; /* Đỏ */
+  --danger-accent-hover: #fa7973;
+  --text-light: #e6edf3; /* Chữ trắng ngà */
+  --text-muted: #8b949e; /* Chữ xám */
+  --success-accent: #3fb950; /* Xanh lá */
 }
+
+/* Thêm hiệu ứng chuyển động chung cho tất cả các phần tử */
+* {
+    transition: all 0.2s ease-in-out;
+}
+
+/* Làm cho card sản phẩm "sang" hơn */
+.product-card {
+    background-color: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px; /* Bo tròn nhiều hơn */
+    padding: 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    overflow: hidden; /* Quan trọng để bo góc ảnh */
+}
+
+.product-card:hover {
+    transform: translateY(-8px); /* Nhấc lên cao hơn */
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
+}
+
+.product-card-image {
+    transition: transform 0.3s ease;
+}
+
+.product-card:hover .product-card-image {
+    transform: scale(1.05); /* Zoom ảnh khi di chuột vào card */
+}
+
+/* Thêm hiệu ứng cho nút bấm */
+.btn:hover {
+    filter: brightness(1.1); /* Làm nút sáng hơn khi di chuột */
+}
+
 
 /* Áp dụng nền tối cho các trang admin */
 .admin-container {
@@ -913,3 +948,260 @@ body {
   color: #4a5568;
   width: 40%;
 }
+/* --- Animation "Hiện Ra" --- */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* --- CSS CHO TRANG CHI TIẾT NÂNG CẤP --- */
+
+/* Thư viện ảnh con */
+.image-gallery {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.image-gallery img {
+  width: 100%;
+  border-radius: 4px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border-color 0.2s;
+}
+
+.image-gallery img:hover {
+  border-color: var(--primary-accent);
+}
+
+/* Bảng thông số kỹ thuật */
+.spec-table {
+  margin-top: 2rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  overflow: hidden; /* Để bo góc hoạt động */
+}
+
+.spec-table h3 {
+    background-color: #f7fafc;
+    padding: 0.75rem 1.25rem;
+    margin: 0;
+    font-size: 1.1rem;
+    border-bottom: 1px solid #e2e8f0;
+    color: #2d3748; /* Thêm màu chữ cho tiêu đề */
+}
+
+.spec-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.spec-table td {
+  padding: 0.75rem 1.25rem;
+  border-bottom: 1px solid #e2e8f0;
+  font-size: 0.95rem;
+}
+
+.spec-table tr:last-child td {
+    border-bottom: none; /* Bỏ viền của dòng cuối */
+}
+
+/* Tạo hiệu ứng màu xen kẽ cho dễ đọc */
+.spec-table tr:nth-child(even) {
+    background-color: #f7fafc;
+}
+
+.spec-table tr td:first-child {
+  font-weight: 600;
+  color: #4a5568;
+  width: 40%;
+}
+pc-case-section {
+  padding-bottom: 3rem;
+  background: #f9f9f9;
+}
+
+
+.brand-logos {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap; /* Cho phép xuống hàng */
+  justify-content: center; /* Căn giữa các logo */
+  align-items: center;
+  gap: 3rem; /* Khoảng cách giữa các logo */
+}
+
+.brand-logo-item img {
+  max-height:70px; /* Chiều cao tối đa cho logo */
+  max-width: 1000px; /* Chiều rộng tối đa */
+  filter: grayscale(100%); /* Chuyển thành màu xám */
+  opacity: 0.6;
+  transition: all 0.3s ease;
+}
+
+.brand-logo-item img:hover {
+  filter: grayscale(50%); /* Hiện màu khi di chuột */
+  opacity: 1;
+  transform: scale(1.1);
+}
+section-title {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-top: 3rem;
+  margin-bottom: 2rem;
+  color: var(--surface-dark); /* Sử dụng biến màu chung */
+  text-transform: uppercase;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: bold;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+   text-shadow: 0 0 15px rgba(54, 191, 191, 0.8), 0 0 25px rgba(0, 255, 255, 0.6); /* Đổ bóng phát sáng màu xanh cyan */
+
+}
+/* --- CSS CHO TRANG CHI TIẾT SẢN PHẨM --- */
+.product-detail-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+/* --- CSS CHO HIGHLIGHTS DANH MỤC --- */
+.category-highlights-section {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  background-color: #fff; /* Nền trắng cho khu vực này để tách biệt */
+}
+
+/* Đổi màu tiêu đề trên nền trắng */
+.category-highlights-section .section-title {
+  color: #111; /* Màu chữ tối */
+}
+
+.category-highlights-grid {
+  display: grid;
+  /* Tạo các cột tự động co giãn, tối thiểu 200px */
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem; /* Khoảng cách giữa các ô */
+}
+
+.category-highlight-card {
+  background-color: var(--surface-dark); /* Nền tối cho card */
+  border-radius: 12px; /* Bo góc nhiều hơn */
+  overflow: hidden; /* Ẩn phần thừa */
+  text-decoration: none; /* Bỏ gạch chân link */
+  color: var(--text-light); /* Chữ sáng */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column; /* Xếp ảnh trên chữ */
+}
+
+.category-highlight-card:hover {
+  transform: translateY(-8px); /* Nhấc card lên khi di chuột */
+  box-shadow: 0 12px 20px rgba(88, 166, 255, 0.3); /* Đổ bóng màu xanh dương */
+}
+
+.category-highlight-card img {
+  width: 100%;
+  height: 150px; /* Chiều cao cố định */
+  object-fit: contain; /* Hiển thị toàn bộ ảnh, giữ tỷ lệ */
+  background-color: #fff; /* Nền trắng sau ảnh nếu ảnh có nền trong suốt */
+  padding: 1rem; /* Khoảng đệm cho ảnh */
+  box-sizing: border-box; /* Padding không làm tăng kích thước */
+}
+
+.category-highlight-card h3 {
+  text-align: center;
+  padding: 1rem;
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+.brand-showcase-container {
+  padding: 4rem 2rem;
+  background-color: #ffffff; /* <<< NỀN TRẮNG */
+  border-top: 1px solid #e0e0e0; /* Viền xám nhạt */
+  border-bottom: 1px solid #e0e0e0;
+  overflow: hidden; /* Ngăn animation tràn ra ngoài */
+}
+
+.brand-showcase-container .section-title {
+    color: #111; /* Màu chữ tối trên nền trắng */
+    margin-bottom: 3rem;
+    /* Bỏ text-shadow nếu không muốn */
+    /* text-shadow: 0 0 10px rgba(88, 166, 255, 0.5); */
+}
+
+.brand-logos {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  /* Tạm thời bỏ wrap để tạo hiệu ứng chạy ngang */
+  /* flex-wrap: wrap; */
+  justify-content: flex-start; /* Bắt đầu từ bên trái */
+  align-items: center;
+  gap: 5rem; /* Tăng khoảng cách */
+  /* --- THÊM ANIMATION CHẠY NGANG --- */
+  animation: marquee 30s linear infinite; /* Chạy animation marquee */
+}
+
+/* Dừng animation khi di chuột vào */
+.brand-logos:hover {
+    animation-play-state: paused;
+}
+
+.brand-logo-item {
+    flex-shrink: 0; /* Ngăn logo bị co lại */
+}
+
+.brand-logo-item img {
+  max-height: 100px; /* <<< TĂNG KÍCH THƯỚC LOGO */
+  max-width: 200px; /* <<< TĂNG KÍCH THƯỚC LOGO */
+  filter: grayscale(100%); /* Giữ hiệu ứng xám */
+  opacity: 0.6;
+  transition: all 0.3s ease;
+  
+}
+
+.brand-logo-item img:hover {
+  filter: grayscale(0%);
+  opacity: 1;
+  transform: scale(1.1); /* Giữ hiệu ứng phóng to */
+}
+.brand-logo-item:hover .brand-name {
+    color: #111; /* Đổi màu chữ khi di chuột vào */
+}
+.brand-logo-item {
+    display: flex; /* Sắp xếp logo và tên theo chiều dọc */
+    flex-direction: column;
+    align-items: center; /* Căn giữa theo chiều ngang */
+    text-align: center;
+    gap: 0.75rem; /* Khoảng cách giữa logo và tên */
+    /* Bỏ padding cũ nếu có */
+    /* padding: 1rem; */ 
+}
+
+.brand-name {
+    margin: 0; /* Bỏ margin mặc định của thẻ p */
+    font-size: 0.9rem; /* Cỡ chữ nhỏ hơn */
+    color: #555; /* Màu chữ xám */
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+
+
+
+

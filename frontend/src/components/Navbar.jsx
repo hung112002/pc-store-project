@@ -7,28 +7,24 @@ import { faMicrochip } from '@fortawesome/free-solid-svg-icons';
 
 function Navbar() {
   const [categories, setCategories] = useState([]);
-  const API_URL = import.meta.env.VITE_API_BASE_URL;
+  const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-       const apiUrl = `${import.meta.env.VITE_API_BASE_URL}/api/categories`;
-const response = await axios.get(apiUrl);
+        const response = await axios.get(`${API_URL}/api/categories`);
         setCategories(Array.isArray(response.data) ? response.data : []);
       } catch (error) {
         console.error("Lỗi khi tải danh mục:", error);
       }
     };
     fetchCategories();
-  }, []);
+  }, [API_URL]);
 
   return (
     <nav className="navbar">
       <div className="navbar-container">
-        <Link to="/" className="navbar-logo">
-          <FontAwesomeIcon icon={faMicrochip} className="chip-icon" /> 
-          PC-STORE
-        </Link>
+        {/* Menu bên trái */}
         <ul className="nav-menu">
           <li className="nav-item">
             <Link to="/" className="nav-links">
@@ -37,12 +33,21 @@ const response = await axios.get(apiUrl);
           </li>
           {categories.map(category => (
             <li key={category.id} className="nav-item">
-              {/* --- ĐÃ NÂNG CẤP --- */}
               <Link to={`/category/${category.name.toLowerCase()}`} className="nav-links">
                 {category.name}
               </Link>
             </li>
           ))}
+        </ul>
+
+        {/* Logo ở giữa (được định vị tuyệt đối bằng CSS) */}
+        <Link to="/" className="navbar-logo">
+          <FontAwesomeIcon icon={faMicrochip} className="chip-icon" />
+          PC-STORE
+        </Link>
+
+        {/* Menu bên phải (chỉ có nút Admin) */}
+        <ul className="nav-menu">
            <li className="nav-item">
             <Link to="/admin" className="nav-links admin-link">
               Quản Trị
