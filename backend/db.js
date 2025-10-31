@@ -4,25 +4,32 @@ require('dotenv').config();
 
 const isProduction = process.env.NODE_ENV === 'production';
 
-// Cấu hình kết nối
-const connectionConfig = {
-  // Nếu đang ở môi trường production (trên Render), dùng DATABASE_URL
-  connectionString: process.env.DATABASE_URL,
-  // Render yêu cầu kết nối SSL
-  ssl: isProduction ? { rejectUnauthorized: false } : false,
-};
+let connectionConfig;
 
-// Nếu không ở production (đang chạy ở máy bạn), dùng các biến từ file .env
-if (!isProduction) {
-  connectionConfig.user = process.env.DB_USER;
-  connectionConfig.host = process.env.DB_HOST;
-  connectionConfig.database = process.env.DB_DATABASE;
-  connectionConfig.password = process.env.DB_PASSWORD;
-  connectionConfig.port = process.env.DB_PORT;
+if (isProduction) {
+  // --- CẤU HÌNH CHO INTERNET (Render) ---
+  // Chỉ sử dụng DATABASE_URL mà bạn đã thiết lập trên Render
+  connectionConfig = {
+    connectionString: process.env.DATABASE_URL,
+    ssl: { rejectUnauthorized: false },
+  };
+} else {
+  // --- CẤU HÌNH CHO MÁY BẠN (Local) ---
+  // Chỉ sử dụng các biến trong file .env
+  connectionConfig = {
+    user: process.env.DB_USER,
+    host: process.env.DB_HOST,
+    database: process.env.DB_DATABASE,
+    password: process.env.DB_PASSWORD,
+    port: process.env.DB_PORT, // Sẽ đọc đúng cổng 1322
+  };
 }
 
+// Tạo pool kết nối MỘT LẦN DUY NHẤT
 const pool = new Pool(connectionConfig);
 
+// Xuất ra cả hàm query (cho lệnh GET) và pool (cho lệnh POST/PUT)
 module.exports = {
   query: (text, params) => pool.query(text, params),
+  pool: pool 
 };
