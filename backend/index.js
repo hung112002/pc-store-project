@@ -218,8 +218,7 @@ app.listen(PORT, () => {
 // Thêm biến pool để sử dụng trong transaction
 const { Pool } = require('pg');
 
-console.log("Đang kết nối database với Port:", process.env.DB_PORT); // Thêm dòng này để kiểm tra
-
+console.log("Đang kết nối database với Port:", process.env.DB_PORT); 
 const pool = new Pool({
     user: process.env.DB_USER,
     host: process.env.DB_HOST,
